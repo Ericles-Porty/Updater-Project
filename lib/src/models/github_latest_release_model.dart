@@ -4,52 +4,54 @@
 
 import 'dart:convert';
 
+List<GithubBody> githubBodyFromJsonList(String str) => List<GithubBody>.from(json.decode(str).map((x) => GithubBody.fromJson(x)));
+
 GithubBody githubBodyFromJson(String str) => GithubBody.fromJson(json.decode(str));
 
 String githubBodyToJson(GithubBody data) => json.encode(data.toJson());
 
 class GithubBody {
-    final String url;
-    final String assetsUrl;
-    final String uploadUrl;
-    final String htmlUrl;
-    final int id;
-    final Author author;
-    final String nodeId;
-    final String tagName;
-    final String targetCommitish;
-    final String name;
-    final bool draft;
-    final bool prerelease;
-    final DateTime createdAt;
-    final DateTime publishedAt;
-    final List<Asset> assets;
-    final String tarballUrl;
-    final String zipballUrl;
-    final String body;
+  final String url;
+  final String assetsUrl;
+  final String uploadUrl;
+  final String htmlUrl;
+  final int id;
+  final Author author;
+  final String nodeId;
+  final String tagName;
+  final String targetCommitish;
+  final String name;
+  final bool draft;
+  final bool prerelease;
+  final DateTime createdAt;
+  final DateTime publishedAt;
+  final List<Asset> assets;
+  final String tarballUrl;
+  final String zipballUrl;
+  final String body;
 
-    GithubBody({
-        required this.url,
-        required this.assetsUrl,
-        required this.uploadUrl,
-        required this.htmlUrl,
-        required this.id,
-        required this.author,
-        required this.nodeId,
-        required this.tagName,
-        required this.targetCommitish,
-        required this.name,
-        required this.draft,
-        required this.prerelease,
-        required this.createdAt,
-        required this.publishedAt,
-        required this.assets,
-        required this.tarballUrl,
-        required this.zipballUrl,
-        required this.body,
-    });
+  GithubBody({
+    required this.url,
+    required this.assetsUrl,
+    required this.uploadUrl,
+    required this.htmlUrl,
+    required this.id,
+    required this.author,
+    required this.nodeId,
+    required this.tagName,
+    required this.targetCommitish,
+    required this.name,
+    required this.draft,
+    required this.prerelease,
+    required this.createdAt,
+    required this.publishedAt,
+    required this.assets,
+    required this.tarballUrl,
+    required this.zipballUrl,
+    required this.body,
+  });
 
-    factory GithubBody.fromJson(Map<String, dynamic> json) => GithubBody(
+  factory GithubBody.fromJson(Map<String, dynamic> json) => GithubBody(
         url: json["url"],
         assetsUrl: json["assets_url"],
         uploadUrl: json["upload_url"],
@@ -68,9 +70,9 @@ class GithubBody {
         tarballUrl: json["tarball_url"],
         zipballUrl: json["zipball_url"],
         body: json["body"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "url": url,
         "assets_url": assetsUrl,
         "upload_url": uploadUrl,
@@ -89,41 +91,41 @@ class GithubBody {
         "tarball_url": tarballUrl,
         "zipball_url": zipballUrl,
         "body": body,
-    };
+      };
 }
 
 class Asset {
-    final String url;
-    final int id;
-    final String nodeId;
-    final String name;
-    final dynamic label;
-    final Author uploader;
-    final String contentType;
-    final String state;
-    final int size;
-    final int downloadCount;
-    final DateTime createdAt;
-    final DateTime updatedAt;
-    final String browserDownloadUrl;
+  final String url;
+  final int id;
+  final String nodeId;
+  final String name;
+  final dynamic label;
+  final Author uploader;
+  final String contentType;
+  final String state;
+  final int size;
+  final int downloadCount;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String browserDownloadUrl;
 
-    Asset({
-        required this.url,
-        required this.id,
-        required this.nodeId,
-        required this.name,
-        required this.label,
-        required this.uploader,
-        required this.contentType,
-        required this.state,
-        required this.size,
-        required this.downloadCount,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.browserDownloadUrl,
-    });
+  Asset({
+    required this.url,
+    required this.id,
+    required this.nodeId,
+    required this.name,
+    required this.label,
+    required this.uploader,
+    required this.contentType,
+    required this.state,
+    required this.size,
+    required this.downloadCount,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.browserDownloadUrl,
+  });
 
-    factory Asset.fromJson(Map<String, dynamic> json) => Asset(
+  factory Asset.fromJson(Map<String, dynamic> json) => Asset(
         url: json["url"],
         id: json["id"],
         nodeId: json["node_id"],
@@ -137,9 +139,9 @@ class Asset {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         browserDownloadUrl: json["browser_download_url"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "url": url,
         "id": id,
         "node_id": nodeId,
@@ -153,51 +155,51 @@ class Asset {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "browser_download_url": browserDownloadUrl,
-    };
+      };
 }
 
 class Author {
-    final String login;
-    final int id;
-    final String nodeId;
-    final String avatarUrl;
-    final String gravatarId;
-    final String url;
-    final String htmlUrl;
-    final String followersUrl;
-    final String followingUrl;
-    final String gistsUrl;
-    final String starredUrl;
-    final String subscriptionsUrl;
-    final String organizationsUrl;
-    final String reposUrl;
-    final String eventsUrl;
-    final String receivedEventsUrl;
-    final String type;
-    final bool siteAdmin;
+  final String login;
+  final int id;
+  final String nodeId;
+  final String avatarUrl;
+  final String gravatarId;
+  final String url;
+  final String htmlUrl;
+  final String followersUrl;
+  final String followingUrl;
+  final String gistsUrl;
+  final String starredUrl;
+  final String subscriptionsUrl;
+  final String organizationsUrl;
+  final String reposUrl;
+  final String eventsUrl;
+  final String receivedEventsUrl;
+  final String type;
+  final bool siteAdmin;
 
-    Author({
-        required this.login,
-        required this.id,
-        required this.nodeId,
-        required this.avatarUrl,
-        required this.gravatarId,
-        required this.url,
-        required this.htmlUrl,
-        required this.followersUrl,
-        required this.followingUrl,
-        required this.gistsUrl,
-        required this.starredUrl,
-        required this.subscriptionsUrl,
-        required this.organizationsUrl,
-        required this.reposUrl,
-        required this.eventsUrl,
-        required this.receivedEventsUrl,
-        required this.type,
-        required this.siteAdmin,
-    });
+  Author({
+    required this.login,
+    required this.id,
+    required this.nodeId,
+    required this.avatarUrl,
+    required this.gravatarId,
+    required this.url,
+    required this.htmlUrl,
+    required this.followersUrl,
+    required this.followingUrl,
+    required this.gistsUrl,
+    required this.starredUrl,
+    required this.subscriptionsUrl,
+    required this.organizationsUrl,
+    required this.reposUrl,
+    required this.eventsUrl,
+    required this.receivedEventsUrl,
+    required this.type,
+    required this.siteAdmin,
+  });
 
-    factory Author.fromJson(Map<String, dynamic> json) => Author(
+  factory Author.fromJson(Map<String, dynamic> json) => Author(
         login: json["login"],
         id: json["id"],
         nodeId: json["node_id"],
@@ -216,9 +218,9 @@ class Author {
         receivedEventsUrl: json["received_events_url"],
         type: json["type"],
         siteAdmin: json["site_admin"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "login": login,
         "id": id,
         "node_id": nodeId,
@@ -237,5 +239,5 @@ class Author {
         "received_events_url": receivedEventsUrl,
         "type": type,
         "site_admin": siteAdmin,
-    };
+      };
 }

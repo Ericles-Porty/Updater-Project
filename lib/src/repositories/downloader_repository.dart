@@ -1,31 +1,25 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:updater_project/src/core/file_manager.dart';
 
 class DownloaderRepository {
   static Dio dio = Dio();
 
   static Future<bool> downloadAssets(String downloadUrl, String savePath) async {
-    print("Downloading assets from $downloadUrl to $savePath");
     try {
-      print('Creating directory: $savePath');
-      final Directory saveDir = Directory(savePath);
-      if (!saveDir.existsSync()) {
-        saveDir.createSync(recursive: true);
-      }
-      print('Directory created: $saveDir');
+      if (!FileManager.createDirectoryIfNotExists(savePath)) return false;
+
+      final saveFilePath = savePath + FileManager.assetsFileName;
+
       await dio.download(
         downloadUrl,
-        savePath,
-        onReceiveProgress: (count, total) {
-          String progress = ((count / total) * 100).toStringAsFixed(0);
-          print("Downloading: $progress%");
-        },
+        saveFilePath,
       );
+
+      return true;
     } catch (e) {
-      print("Error: $e");
+      debugPrint('Error downloading assets: $e');
       return false;
     }
-    return true;
   }
 }
