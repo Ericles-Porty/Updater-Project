@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:updater_project/src/components/my_dialogs.dart';
+import 'package:updater_project/src/components/my_snack_bars.dart';
 import 'package:updater_project/src/controllers/version_controller_inherited.dart';
 import 'package:updater_project/src/core/updater.dart';
-import 'package:updater_project/src/repositories/release_remote_repository.dart';
+import 'package:updater_project/src/repositories/release_local_repository.dart';
 
 class HomePageInherited extends StatefulWidget {
   const HomePageInherited({super.key});
@@ -13,8 +15,6 @@ class HomePageInherited extends StatefulWidget {
 }
 
 class _HomePageInheritedState extends State<HomePageInherited> {
-  bool isDownloading = false;
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -26,24 +26,25 @@ class _HomePageInheritedState extends State<HomePageInherited> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              !isDownloading
-                  ? ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.green),
-                      ),
-                      onPressed: () async {
-                        await _checkForUpdates();
-                      },
-                      child: const Text('Check for updates'),
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-              ElevatedButton(
-                onPressed: () async {
-                  await _showVersionDialog(context);
-                },
-                child: const Text('Select Version'),
+              SizedBox(
+                width: 160,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await _checkForUpdates();
+                  },
+                  child: const FittedBox(child: Text('Check for updates')),
+                ),
+              ),
+              SizedBox(
+                width: 160,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await showSelectVersionDialog(context);
+                  },
+                  child: const FittedBox(child: Text('Select Version')),
+                ),
               ),
             ],
           ),
@@ -53,101 +54,33 @@ class _HomePageInheritedState extends State<HomePageInherited> {
   }
 
   Future<void> _checkForUpdates() async {
-    setState(() {
-      isDownloading = true;
-    });
-    await Updater.checkForUpdates();
-    setState(() {
-      isDownloading = false;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Update checked'),
-        backgroundColor: Colors.green,
-      ),
-    );
-    final hasUpdate = await Updater.checkForUpdates();
+    final bool hasUpdate = await Updater.checkForUpdates();
+
     if (!hasUpdate) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No updates available'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      successSnackBar(context, 'No updates available');
+      return;
     }
-  }
 
-  Future<void> _showVersionDialog(BuildContext context) async {
-    final controller = VersionControllerInherited.of(context);
-    final releaseVersions = await ReleaseRemoteRepository.getAllReleaseVersions();
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.4,
-          height: MediaQuery.of(context).size.height * 0.6,
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: 40,
-                  child: const Center(child: Text('Select a version to set as local release version:')),
-                ),
-                Expanded(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          for (var version in releaseVersions)
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: 80,
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        controller.getVersion() == version ? Colors.green : Colors.blue),
-                                  ),
-                                  onPressed: () async {
-                                    await _handleVersionSelection(controller, version);
-                                  },
-                                  child: Text(version, style: const TextStyle(color: Colors.white)),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+    final userOption = await getUserOptionDialog(context);
 
-  Future<void> _handleVersionSelection(VersionControllerInherited controller, String version) async {
-    controller.setVersion(version);
-    if (!await Updater.updateVersion(version)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error updating to version $version!'),
-          backgroundColor: Colors.red,
-        ),
-      );
+    if (!userOption) {
+      return;
+    }
+
+    downloadingShowDialog(context);
+
+    final hasUpdated = await Updater.updateToLatestVersion();
+
+    Navigator.of(context).pop();
+
+    if (hasUpdated) {
+      successSnackBar(context, 'Updated to latest version successfully');
+
+      final localReleaseVersion = await ReleaseLocalRepository.getLocalReleaseVersion() ?? '';
+      final versionController = VersionControllerInherited.of(context);
+      versionController.setVersion(localReleaseVersion);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Updated to version $version successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      errorSnackBar(context, 'Error updating to latest version!');
     }
   }
 }

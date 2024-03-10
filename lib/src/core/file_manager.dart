@@ -44,6 +44,7 @@ class FileManager {
     }
 
     inputStream.closeSync();
+
     zipFile.deleteSync();
 
     return true;

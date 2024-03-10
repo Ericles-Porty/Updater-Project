@@ -46,7 +46,6 @@ class Updater {
 
   static Future<bool> updateToLatestVersion() async {
     final latestReleaseVersion = await ReleaseRemoteRepository.getLatestReleaseVersion();
-
     return await updateVersion(latestReleaseVersion);
   }
 }

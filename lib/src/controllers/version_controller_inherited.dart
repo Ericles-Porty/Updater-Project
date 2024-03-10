@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 class VersionControllerInherited extends InheritedNotifier<ValueNotifier<String>> {
   VersionControllerInherited({
     required String version,
-    Key? key,
-    required Widget child,
+    super.key,
+    required super.child,
   }) : super(
-          key: key,
           notifier: ValueNotifier(version),
-          child: child,
         );
 
   static VersionControllerInherited of(BuildContext context) {
