@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:updater_project/src/components/my_app_bar.dart';
 import 'package:updater_project/src/components/my_background.dart';
-import 'package:updater_project/src/controllers/version_controller_inherited.dart';
+import 'package:updater_project/src/controllers/download_progress_controller.dart';
+import 'package:updater_project/src/controllers/version_controller.dart';
 import 'package:updater_project/src/pages/home_page_inherited.dart';
 import 'package:updater_project/src/repositories/release_local_repository.dart';
 
 void main() async {
   final String appVersion = await ReleaseLocalRepository.getLocalReleaseVersion() ?? '';
   runApp(
-    VersionControllerInherited(
+    VersionController(
       version: appVersion,
-      child: const MyAppInherited(),
+      child: DownloadProgressController(
+        progress: 0,
+        child: const MyAppInherited(),
+      ),
     ),
   );
 }

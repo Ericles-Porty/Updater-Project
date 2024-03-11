@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:updater_project/src/components/my_dialogs.dart';
 import 'package:updater_project/src/components/my_snack_bars.dart';
-import 'package:updater_project/src/controllers/version_controller_inherited.dart';
+import 'package:updater_project/src/controllers/version_controller.dart';
 import 'package:updater_project/src/core/updater.dart';
 import 'package:updater_project/src/repositories/release_local_repository.dart';
 
@@ -77,7 +77,7 @@ class _HomePageInheritedState extends State<HomePageInherited> {
       successSnackBar(context, 'Updated to latest version successfully');
 
       final localReleaseVersion = await ReleaseLocalRepository.getLocalReleaseVersion() ?? '';
-      final versionController = VersionControllerInherited.of(context);
+      final versionController = VersionController.of(context);
       versionController.setVersion(localReleaseVersion);
     } else {
       errorSnackBar(context, 'Error updating to latest version!');

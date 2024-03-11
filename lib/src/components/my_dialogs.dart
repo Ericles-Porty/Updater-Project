@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:updater_project/src/components/my_snack_bars.dart';
-import 'package:updater_project/src/controllers/version_controller_inherited.dart';
+import 'package:updater_project/src/controllers/download_progress_controller.dart';
+import 'package:updater_project/src/controllers/version_controller.dart';
 import 'package:updater_project/src/core/updater.dart';
 import 'package:updater_project/src/repositories/release_remote_repository.dart';
-import 'package:updater_project/src/utils/colors/my_colors_dark.dart';
-import 'package:updater_project/src/utils/colors/my_colors_light.dart';
 
 Future<void> showSelectVersionDialog(BuildContext context) async {
-  final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-  final controller = VersionControllerInherited.of(context);
+  final controller = VersionController.of(context);
   final releaseVersions = await ReleaseRemoteRepository.getAllReleaseVersions();
 
   if (context.mounted) {
@@ -89,9 +87,9 @@ Future<void> showSelectVersionDialog(BuildContext context) async {
 }
 
 Future<void> _handleVersionSelection(BuildContext context, String version) async {
-  VersionControllerInherited controller = VersionControllerInherited.of(context);
+  final versionController = VersionController.of(context);
 
-  if (version == controller.getVersion()) {
+  if (version == versionController.getVersion()) {
     Navigator.of(context).pop();
     return;
   }
@@ -105,7 +103,7 @@ Future<void> _handleVersionSelection(BuildContext context, String version) async
 
     if (hasUpdated) {
       successSnackBar(context, 'Updated to version $version successfully');
-      controller.setVersion(version);
+      versionController.setVersion(version);
     } else {
       errorSnackBar(context, 'Error updating to version $version!');
     }
@@ -114,7 +112,6 @@ Future<void> _handleVersionSelection(BuildContext context, String version) async
 }
 
 downloadingShowDialog(BuildContext context) {
-  final controller = VersionControllerInherited.of(context);
   showDialog(
     barrierDismissible: false,
     context: context,
@@ -123,14 +120,14 @@ downloadingShowDialog(BuildContext context) {
         alignment: Alignment.topCenter,
         children: [
           const Padding(
-            padding: EdgeInsets.only(top: 20.0),
-            child: Text('Downloading'),
+            padding: EdgeInsets.only(top: 50.0),
+            child: Text('Downloading', style: TextStyle(fontSize: 30), textAlign: TextAlign.center),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Center(
               child: Text(
-                '${controller.getPercentage()}%',
+                '${DownloadProgressController.of(context).getProgress()}%',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 50),
               ),
@@ -141,10 +138,8 @@ downloadingShowDialog(BuildContext context) {
               width: 300,
               height: 300,
               child: CircularProgressIndicator(
-                value: controller.getPercentage() / 100,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Theme.of(context).colorScheme.primary,
-                ),
+                value: DownloadProgressController.of(context).getProgress() / 100,
+                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
                 backgroundColor: Theme.of(context).colorScheme.onPrimary,
                 strokeWidth: 10.0,
               ),

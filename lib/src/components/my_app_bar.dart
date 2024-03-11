@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:updater_project/src/components/my_credits_icon_button.dart';
-import 'package:updater_project/src/controllers/version_controller_inherited.dart';
+import 'package:updater_project/src/controllers/version_controller.dart';
 
 AppBar myAppBar(context) {
-  final VersionControllerInherited versionController = VersionControllerInherited.of(context);
+  final VersionController versionController = VersionController.of(context);
   return AppBar(
     centerTitle: true,
     backgroundColor: Colors.transparent,

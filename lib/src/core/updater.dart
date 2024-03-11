@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:updater_project/src/controllers/download_progress_controller.dart';
 import 'package:updater_project/src/core/file_manager.dart';
 import 'package:updater_project/src/repositories/download_manager.dart';
 import 'package:updater_project/src/repositories/release_local_repository.dart';
@@ -41,6 +42,8 @@ class Updater {
     }
 
     await ReleaseLocalRepository.setLocalReleaseVersion(version);
+
+    DownloadProgressController.of(context).setProgress(0);
 
     return true;
   }

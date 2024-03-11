@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:updater_project/src/controllers/version_controller_inherited.dart';
+import 'package:updater_project/src/controllers/download_progress_controller.dart';
 import 'package:updater_project/src/core/file_manager.dart';
 
 class DownloadManager {
   static Dio dio = Dio();
 
   static Future<bool> downloadAssets(String downloadUrl, String savePath, BuildContext context) async {
-    final controller = VersionControllerInherited.of(context);
+    final controller = DownloadProgressController.of(context);
     try {
       if (!FileManager.createDirectoryIfNotExists(savePath)) return false;
 
@@ -17,7 +17,7 @@ class DownloadManager {
         downloadUrl,
         saveFilePath,
         onReceiveProgress: (received, total) {
-          controller.setPercentage((received / total * 100).floor());
+          controller.setProgress((received / total * 100).toInt());
         },
       );
 
