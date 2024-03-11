@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class VersionControllerInherited extends InheritedNotifier<ValueNotifier<String>> {
+  int percentage = 0;
   VersionControllerInherited({
     required String version,
     super.key,
@@ -28,8 +30,15 @@ class VersionControllerInherited extends InheritedNotifier<ValueNotifier<String>
 
   String getVersion() => notifier!.value;
 
+  void setPercentage(int percentage) {
+    this.percentage = percentage;
+    notifier!.value = percentage.toStringAsFixed(0);
+  }
+
+  int getPercentage() => percentage;
+
   @override
   bool updateShouldNotify(VersionControllerInherited oldWidget) {
-    return oldWidget.notifier!.value != notifier!.value;
+    return oldWidget.notifier!.value != notifier!.value || oldWidget.percentage != percentage;
   }
 }

@@ -1,6 +1,7 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:updater_project/src/core/file_manager.dart';
 import 'package:updater_project/src/repositories/download_manager.dart';
 import 'package:updater_project/src/repositories/release_local_repository.dart';
@@ -17,7 +18,7 @@ class Updater {
     return latestReleaseVersion != localReleaseVersion;
   }
 
-  static Future<bool> updateVersion(String version) async {
+  static Future<bool> updateVersion(String version, BuildContext context) async {
     print("Requested updateVersion");
 
     final downloadUrl = await ReleaseRemoteRepository.getDownloadUrlByVersion(version);
@@ -31,7 +32,7 @@ class Updater {
 
     try {
       print("Downloading assets from $downloadUrl to $downloadPath");
-      if (!await DownloadManager.downloadAssets(downloadUrl, downloadPath)) return false;
+      if (!await DownloadManager.downloadAssets(downloadUrl, downloadPath, context)) return false;
       final downloadedZipPath = "$downloadPath$_assetsFileName";
       if (!await FileManager.extractAssets(downloadedZipPath, downloadPath)) return false;
     } catch (e) {
@@ -44,8 +45,8 @@ class Updater {
     return true;
   }
 
-  static Future<bool> updateToLatestVersion() async {
+  static Future<bool> updateToLatestVersion(BuildContext context) async {
     final latestReleaseVersion = await ReleaseRemoteRepository.getLatestReleaseVersion();
-    return await updateVersion(latestReleaseVersion);
+    return await updateVersion(latestReleaseVersion, context);
   }
 }

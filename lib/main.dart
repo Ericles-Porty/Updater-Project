@@ -23,7 +23,7 @@ class MyAppInherited extends StatefulWidget {
 }
 
 class _MyAppInheritedState extends State<MyAppInherited> {
-  bool isDarkMode = false;
+  bool isDarkMode = true;
   @override
   Widget build(BuildContext context) {
     final myBackground = isDarkMode ? myBackgroundDark : myBackgroundLight;

@@ -98,7 +98,7 @@ Future<void> _handleVersionSelection(BuildContext context, String version) async
 
   downloadingShowDialog(context);
 
-  final bool hasUpdated = await Updater.updateVersion(version);
+  final bool hasUpdated = await Updater.updateVersion(version, context);
 
   if (context.mounted) {
     Navigator.of(context).pop();
@@ -114,16 +114,42 @@ Future<void> _handleVersionSelection(BuildContext context, String version) async
 }
 
 downloadingShowDialog(BuildContext context) {
+  final controller = VersionControllerInherited.of(context);
   showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (context) => const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    builder: (context) => Center(
+      child: Stack(
+        alignment: Alignment.topCenter,
         children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 20),
-          Text('Downloading version...'),
+          const Padding(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Text('Downloading'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Center(
+              child: Text(
+                '${controller.getPercentage()}%',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 50),
+              ),
+            ),
+          ),
+          Center(
+            child: SizedBox(
+              width: 300,
+              height: 300,
+              child: CircularProgressIndicator(
+                value: controller.getPercentage() / 100,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Theme.of(context).colorScheme.primary,
+                ),
+                backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                strokeWidth: 10.0,
+              ),
+            ),
+          ),
         ],
       ),
     ),

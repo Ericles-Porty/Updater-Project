@@ -69,7 +69,7 @@ class _HomePageInheritedState extends State<HomePageInherited> {
 
     downloadingShowDialog(context);
 
-    final hasUpdated = await Updater.updateToLatestVersion();
+    final hasUpdated = await Updater.updateToLatestVersion(context);
 
     Navigator.of(context).pop();
 
