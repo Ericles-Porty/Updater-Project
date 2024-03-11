@@ -4,8 +4,10 @@ import 'package:updater_project/src/controllers/version_controller_inherited.dar
 import 'package:updater_project/src/core/updater.dart';
 import 'package:updater_project/src/repositories/release_remote_repository.dart';
 import 'package:updater_project/src/utils/colors/my_colors_dark.dart';
+import 'package:updater_project/src/utils/colors/my_colors_light.dart';
 
 Future<void> showSelectVersionDialog(BuildContext context) async {
+  final isDarkMode = Theme.of(context).brightness == Brightness.dark;
   final controller = VersionControllerInherited.of(context);
   final releaseVersions = await ReleaseRemoteRepository.getAllReleaseVersions();
 
@@ -57,13 +59,17 @@ Future<void> showSelectVersionDialog(BuildContext context) async {
                                 child: TextButton(
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(controller.getVersion() == version
-                                        ? MyColorsDark.primaryContainer
-                                        : MyColorsDark.background),
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.onPrimary),
                                   ),
                                   onPressed: () async {
                                     await _handleVersionSelection(context, version);
                                   },
-                                  child: Text(version, style: const TextStyle(color: Colors.white)),
+                                  child: Text(version,
+                                      style: TextStyle(
+                                          color: controller.getVersion() == version
+                                              ? Theme.of(context).colorScheme.onPrimary
+                                              : Theme.of(context).colorScheme.primary)),
                                 ),
                               ),
                             ),

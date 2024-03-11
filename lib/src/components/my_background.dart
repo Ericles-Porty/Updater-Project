@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:updater_project/src/utils/colors/my_colors_dark.dart';
+import 'package:updater_project/src/utils/colors/my_colors_light.dart';
 
-Container myBackground({required Widget child}) {
+Container myBackgroundLight({required Widget child}) {
+  return Container(
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [MyColorsLight.background, MyColorsLight.onInverseSurface],
+      ),
+    ),
+    child: child,
+  );
+}
+
+Container myBackgroundDark({required Widget child}) {
   return Container(
     decoration: const BoxDecoration(
       gradient: LinearGradient(

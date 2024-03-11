@@ -15,18 +15,34 @@ void main() async {
   );
 }
 
-class MyAppInherited extends StatelessWidget {
+class MyAppInherited extends StatefulWidget {
   const MyAppInherited({super.key});
 
   @override
+  State<MyAppInherited> createState() => _MyAppInheritedState();
+}
+
+class _MyAppInheritedState extends State<MyAppInherited> {
+  bool isDarkMode = false;
+  @override
   Widget build(BuildContext context) {
+    final myBackground = isDarkMode ? myBackgroundDark : myBackgroundLight;
+    final themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     return MaterialApp(
-      theme: ThemeData.dark(),
+      theme: ThemeData.light(useMaterial3: true),
+      darkTheme: ThemeData.dark(useMaterial3: true),
+      themeMode: themeMode,
       debugShowCheckedModeBanner: false,
       home: myBackground(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: myAppBar(context),
+          appBar: myAppBar(context)
+            ..actions?.add(
+              Switch(
+                value: isDarkMode,
+                onChanged: (value) => setState(() => isDarkMode = value),
+              ),
+            ),
           body: const HomePageInherited(),
         ),
       ),

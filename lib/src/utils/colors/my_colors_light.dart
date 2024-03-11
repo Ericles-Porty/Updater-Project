@@ -32,6 +32,5 @@ class MyColorsLight {
   static const Color inverseSurface = Color(0xFF313033);
   static const Color onInverseSurface = Color(0xFFF4EFF4);
   static const Color inversePrimary = Color(0xFFD0BCFF);
-  // The surfaceTint color is set to the same color as the primary.
   static const Color surfaceTint = Color(0xFF6750A4);
 }
