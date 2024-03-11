@@ -1,16 +1,10 @@
-# updater_project
+# Updater Project
 
-Esse projeto é apenas para testar um modo de versionamento
+## Esse projeto é apenas para treino de conceitos de programação utilizando Flutter.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [X] Entendi como funciona a árvore de widgets utilizando o inheritedWidget.
+- [X] Consultei a api do próprio repositório no Github, fiz download dos assets que ficam nas releases.
+- [X] Manipulei diretórios e arquivos.
+- [X] Descompactei o zip da release.
+- [X] Fiz um alternador entre modo escuro e modo claro.
+- [X] Fiz um indicador de progresso de download.
