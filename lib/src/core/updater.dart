@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'package:updater_project/src/core/file_manager.dart';
-import 'package:updater_project/src/repositories/downloader_repository.dart';
+import 'package:updater_project/src/repositories/download_manager.dart';
 import 'package:updater_project/src/repositories/release_local_repository.dart';
 import 'package:updater_project/src/repositories/release_remote_repository.dart';
 
@@ -31,7 +31,7 @@ class Updater {
 
     try {
       print("Downloading assets from $downloadUrl to $downloadPath");
-      if (!await DownloaderRepository.downloadAssets(downloadUrl, downloadPath)) return false;
+      if (!await DownloadManager.downloadAssets(downloadUrl, downloadPath)) return false;
       final downloadedZipPath = "$downloadPath$_assetsFileName";
       if (!await FileManager.extractAssets(downloadedZipPath, downloadPath)) return false;
     } catch (e) {
