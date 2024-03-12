@@ -1,16 +1,16 @@
-# updater_project
+# Updater Project
 
-Esse projeto é apenas para testar um modo de versionamento
+## Esse projeto é apenas para treino de conceitos de programação utilizando Flutter.
 
-## Getting Started
+:white_check_mark: Entendi como funciona a árvore de widgets utilizando o inheritedWidget.
 
-This project is a starting point for a Flutter application.
+:white_check_mark: Consultei a api do próprio repositório no Github, fiz download dos assets que ficam nas releases.
 
-A few resources to get you started if this is your first Flutter project:
+:white_check_mark: Manipulei diretórios e arquivos.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+:white_check_mark: Descompactei o zip da release.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+:white_check_mark: Fiz um alternador entre modo escuro e modo claro.
+
+:white_check_mark: Fiz um indicador de progresso de download.
+
