@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:updater_project/src/components/my_snack_bars.dart';
 import 'package:updater_project/src/controllers/download_progress_controller.dart';
@@ -112,6 +115,11 @@ Future<void> _handleVersionSelection(BuildContext context, String version) async
 }
 
 downloadingShowDialog(BuildContext context) {
+  if (kIsWeb) {
+    _webPlatformAlertDialog(context);
+    return;
+  }
+
   showDialog(
     barrierDismissible: false,
     context: context,
@@ -149,6 +157,26 @@ downloadingShowDialog(BuildContext context) {
       ),
     ),
   );
+}
+
+Future<dynamic> _webPlatformAlertDialog(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Feature not available on web'),
+          content: const Text(
+              'Sorry, but this feature is just available on mobile and desktop platforms. Please try again on a different platform.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      });
 }
 
 Future<bool> getUserOptionDialog(BuildContext context) async {
