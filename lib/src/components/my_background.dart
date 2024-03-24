@@ -8,7 +8,7 @@ Container myBackgroundLight({required Widget child}) {
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [MyColorsLight.background, MyColorsLight.onInverseSurface],
+        colors: [MyColorsLight.background, MyColorsLight.inversePrimary],
       ),
     ),
     child: child,

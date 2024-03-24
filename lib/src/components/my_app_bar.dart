@@ -14,6 +14,11 @@ AppBar myAppBar(context) {
         child: myCreditsIconButton(),
       ),
     ],
-    title: Text('Updater Project ${versionController.getVersion()}'),
+    title: Text(
+      'UPDATER PROJECT ${versionController.getVersion()}',
+      style: TextStyle(
+        letterSpacing: 2,
+      ),
+    ),
   );
 }

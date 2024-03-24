@@ -37,3 +37,5 @@ endif
 	@echo "🚀 Flutter web URL: https://$(GITHUB_USER).github.io/$(OUTPUT)/"
 
 .PHONY: deploy
+
+# example: make deploy OUTPUT=Updater_Project_Deploy_Test

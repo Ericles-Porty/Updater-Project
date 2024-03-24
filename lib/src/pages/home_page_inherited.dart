@@ -33,7 +33,7 @@ class _HomePageInheritedState extends State<HomePageInherited> {
                   onPressed: () async {
                     await _checkForUpdates();
                   },
-                  child: const FittedBox(child: Text('Check for updates')),
+                  child: const FittedBox(child: Text('Check For Updates')),
                 ),
               ),
               SizedBox(
